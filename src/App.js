@@ -20,7 +20,7 @@ class App extends Component{
       ]
     }
   }
-  
+
   // 리액트에서 props 값이나 state 값이 바뀌면 해당되는 component의 render() 함수가 호출되도록 되어있다.
   render() {
     
@@ -36,10 +36,18 @@ class App extends Component{
 
     return (
       <div className="App">
-        <Subject 
+        
+        {/* <Subject 
           title={this.state.subject.title} 
           sub={this.state.subject.sub}>
-        </Subject>        
+        </Subject>         */}
+        <header>
+            <h1><a href="/" onClick={function(e){
+              console.log(e);
+              e.preventDefault();
+            }}>{this.state.subject.title}</a></h1>
+            {this.state.subject.sub}
+        </header>
         <TOC data={this.state.contents}></TOC>
         <Content title={_title} desc={_desc}></Content>
       </div>
