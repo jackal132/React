@@ -16,6 +16,10 @@ class TOC extends Component{
                         e.preventDefault();
                         this.props.onChangePage(e.target.dataset.id);    
                 }.bind(this)}>{data[i].title}</a>
+                {/* }.bind(this), data[i].id}>{data[i].title}</a> 
+                    바인드 부분에 인자값을 넘겨주면  onClick={function(id, e){
+                    온클릭 함수의 첫번째 인자로 받을수 있음
+                */}
             </li>);
           i = i + 1;
       }
