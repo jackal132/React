@@ -4,13 +4,14 @@ import TOC from './components/TOC';
 import Content from './components/Content';
 import Subject from './components/Subject';
 
-
 class App extends Component{
   // 컴포넌트가 실행될때 랜더함수보다 먼저 실행되면서
   // 콤포넌트를 초기화시켜주고 싶은 코드는 constructor 안에 작성한다.
   constructor(props){
     super(props);
     this.state = {
+      mode:'read',
+      welcome:{title:'Welcome', desc:'Hello React'},
       subject:{title : 'WEB', sub:'World Wide Web'},
       contents:[
         {id:1, title:'HTML', desc:'HTML is HyperText ...'},
@@ -19,8 +20,20 @@ class App extends Component{
       ]
     }
   }
-
+  
+  // 리액트에서 props 값이나 state 값이 바뀌면 해당되는 component의 render() 함수가 호출되도록 되어있다.
   render() {
+    
+    var _title, _desc = null;
+    
+    if(this.state.mode === 'welcome'){
+      _title = this.state.welcome.title;
+      _desc = this.state.welcome.desc;
+    } else if( this.state.mode === 'read'){
+      _title = this.state.contents[0].title;
+      _desc = this.state.contents[0].desc;
+    }
+
     return (
       <div className="App">
         <Subject 
@@ -28,7 +41,7 @@ class App extends Component{
           sub={this.state.subject.sub}>
         </Subject>        
         <TOC data={this.state.contents}></TOC>
-        <Content title="HTML" desc="HTML is HyperText Markup Language."></Content>
+        <Content title={_title} desc={_desc}></Content>
       </div>
     );
   }
