@@ -6,8 +6,8 @@ class Subject extends Component{
     return (
       //컴포넌트를 만들때는 반드시 하나의 최상위 태그만 있어야한다.
       <header>
-          <h1>WEB</h1>
-          World wide web!
+          <h1>{this.props.title}</h1>
+          {this.props.sub}
       </header>
     );
   }
@@ -42,7 +42,8 @@ class App extends Component{
   render() {
     return (
       <div className="App">
-        <Subject></Subject>
+        <Subject title="WEB" sub="World wide web!"></Subject>
+        <Subject title="React" sub="For UI"></Subject>
         <TOC></TOC>
         <Content></Content>
       </div>
