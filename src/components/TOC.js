@@ -1,6 +1,24 @@
 import { Component } from 'react';
 
 class TOC extends Component{
+    /*
+    shouldComponentUpdate 함수
+    1. render 이전에 shouldComponentUpdate 가 실행된다.
+    2. shouldComponentUpdate 의 return 값이 true면 render가 호출되고 
+       false면 render는 호출되지 않도록 약속되어 있다.
+    3. shouldComponentUpdate는 새롭게 바뀐값과 이전값에 접근할 수 있다.
+    
+    ※ state 의 값을 수정할때는 원본을 수정하지 말고 복제본을 수정하여 대입해야 한다.
+    
+    */
+    shouldComponentUpdate(newProps, newState){
+      if(this.props.data === newProps.data){
+        return false;
+      }
+
+      return true;
+    }
+
     render(){
       var list = [];
       var data = this.props.data;
