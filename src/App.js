@@ -11,8 +11,9 @@ class App extends Component{
   // 콤포넌트를 초기화시켜주고 싶은 코드는 constructor 안에 작성한다.
   constructor(props){
     super(props);
+    this.max_content_id = 3;
     this.state = {
-      mode:'read',
+      mode:'create',
       selected_content_id:2,
       welcome:{title:'Welcome', desc:'Hello React'},
       subject:{title : 'WEB', sub:'World Wide Web'},
@@ -52,7 +53,18 @@ class App extends Component{
 
     } else if( this.state.mode === 'create'){
 
-      _article = <CreateContent></CreateContent>
+      _article = <CreateContent onSubmit={function(_title, _desc){
+        // add content to this.state.contents
+        this.max_content_id = this.max_content_id + 1;
+        // this.state.contents.push(
+        //   {id:this.max_content_id, title:_title, desc:_desc}
+        // );
+        var _contents = this.state.contents.concat({id:this.max_content_id, title:_title, desc:_desc});
+        this.setState({
+          contents: _contents
+        });
+
+      }.bind(this)}></CreateContent>
 
     }
 
