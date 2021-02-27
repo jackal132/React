@@ -5,6 +5,7 @@ import ReadContent from './components/ReadContent';
 import Subject from './components/Subject';
 import Control from './components/Control';
 import CreateContent from './components/CreateContent';
+import UpdateContent from './components/UpdateContent';
 
 class App extends Component{
   // 컴포넌트가 실행될때 랜더함수보다 먼저 실행되면서
@@ -25,9 +26,19 @@ class App extends Component{
     }
   }
 
-  // 리액트에서 props 값이나 state 값이 바뀌면 해당되는 component의 render() 함수가 호출되도록 되어있다.
-  render() {
-    
+  getReadContent(){
+    var i = 0;
+    while(i < this.state.contents.length){
+      var data = this.state.contents[i];
+      if(data.id === this.state.selected_content_id){
+        return data;
+        break;
+      }
+      i = i + 1;
+    }
+  }
+
+  getContent(){
     var _title, _desc, _article = null;
     
     if(this.state.mode === 'welcome'){
@@ -38,18 +49,8 @@ class App extends Component{
 
     } else if( this.state.mode === 'read'){
 
-      var i = 0;
-      while(i < this.state.contents.length){
-        var data = this.state.contents[i];
-        if(data.id === this.state.selected_content_id){
-          _title = data.title;
-          _desc = data.desc;
-          break;
-        }
-        i = i + 1;
-      }
-      
-      _article = <ReadContent title={_title} desc={_desc}></ReadContent>
+      var _content = this.getReadContent();
+      _article = <ReadContent title={_content.title} desc={_content.desc}></ReadContent>
 
     } else if( this.state.mode === 'create'){
 
@@ -59,15 +60,47 @@ class App extends Component{
         // this.state.contents.push(
         //   {id:this.max_content_id, title:_title, desc:_desc}
         // );
-        var _contents = this.state.contents.concat({id:this.max_content_id, title:_title, desc:_desc});
+
+        // var _contents = this.state.contents.concat({id:this.max_content_id, title:_title, desc:_desc});
+        
+        // 배열을 복제할 경우사용하고, 객체를 복제할때는 Object.assign 을 사용한다.
+        var newContents = Array.from(this.state.contents);
+        newContents.push({id:this.max_content_id, title:_title, desc:_desc});
         this.setState({
-          contents: _contents
+          contents: newContents
         });
 
       }.bind(this)}></CreateContent>
 
+    } else if( this.state.mode === 'update'){
+
+      var _content = this.getReadContent();
+      _article = <UpdateContent data={_content} onSubmit={function(_title, _desc){
+        // add content to this.state.contents
+        this.max_content_id = this.max_content_id + 1;
+        // this.state.contents.push(
+        //   {id:this.max_content_id, title:_title, desc:_desc}
+        // );
+
+        // var _contents = this.state.contents.concat({id:this.max_content_id, title:_title, desc:_desc});
+        
+        // 배열을 복제할 경우사용하고, 객체를 복제할때는 Object.assign 을 사용한다.
+        var newContents = Array.from(this.state.contents);
+        newContents.push({id:this.max_content_id, title:_title, desc:_desc});
+        this.setState({
+          contents: newContents
+        });
+
+      }.bind(this)}></UpdateContent>
+
     }
 
+    return _article;
+  }
+  
+  // 리액트에서 props 값이나 state 값이 바뀌면 해당되는 component의 render() 함수가 호출되도록 되어있다.
+  render() {
+    
     return (
       <div className="App">
         
@@ -94,7 +127,7 @@ class App extends Component{
           });
         }.bind(this)}></Control>
         
-        {_article}
+        {this.getContent()}
       </div>
     );
   }
