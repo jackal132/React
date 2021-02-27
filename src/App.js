@@ -1,9 +1,10 @@
 import './App.css';
 import { Component } from 'react';
 import TOC from './components/TOC';
-import Content from './components/Content';
+import ReadContent from './components/ReadContent';
 import Subject from './components/Subject';
 import Control from './components/Control';
+import CreateContent from './components/CreateContent';
 
 class App extends Component{
   // 컴포넌트가 실행될때 랜더함수보다 먼저 실행되면서
@@ -26,12 +27,16 @@ class App extends Component{
   // 리액트에서 props 값이나 state 값이 바뀌면 해당되는 component의 render() 함수가 호출되도록 되어있다.
   render() {
     
-    var _title, _desc = null;
+    var _title, _desc, _article = null;
     
     if(this.state.mode === 'welcome'){
+
       _title = this.state.welcome.title;
       _desc = this.state.welcome.desc;
+      _article = <ReadContent title={_title} desc={_desc}></ReadContent>
+
     } else if( this.state.mode === 'read'){
+
       var i = 0;
       while(i < this.state.contents.length){
         var data = this.state.contents[i];
@@ -43,6 +48,12 @@ class App extends Component{
         i = i + 1;
       }
       
+      _article = <ReadContent title={_title} desc={_desc}></ReadContent>
+
+    } else if( this.state.mode === 'create'){
+
+      _article = <CreateContent></CreateContent>
+
     }
 
     return (
@@ -71,7 +82,7 @@ class App extends Component{
           });
         }.bind(this)}></Control>
         
-        <Content title={_title} desc={_desc}></Content>
+        {_article}
       </div>
     );
   }
