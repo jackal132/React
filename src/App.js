@@ -74,21 +74,21 @@ class App extends Component{
 
     } else if( this.state.mode === 'update'){
 
-      var _content = this.getReadContent();
-      _article = <UpdateContent data={_content} onSubmit={function(_title, _desc){
-        // add content to this.state.contents
-        this.max_content_id = this.max_content_id + 1;
-        // this.state.contents.push(
-        //   {id:this.max_content_id, title:_title, desc:_desc}
-        // );
-
-        // var _contents = this.state.contents.concat({id:this.max_content_id, title:_title, desc:_desc});
+      _content = this.getReadContent();
+      _article = <UpdateContent data={_content} onSubmit={function(_id, _title, _desc){
         
-        // 배열을 복제할 경우사용하고, 객체를 복제할때는 Object.assign 을 사용한다.
-        var newContents = Array.from(this.state.contents);
-        newContents.push({id:this.max_content_id, title:_title, desc:_desc});
+        var _contents = Array.from(this.state.contents);
+        var i = 0;
+        while(i < _contents.length){
+          if(_contents[i].id === _id){
+            _contents[i] = {id:_id, title:_title, desc:_desc};
+            break;
+          }
+          i = i + 1;
+        }
+
         this.setState({
-          contents: newContents
+          contents: _contents
         });
 
       }.bind(this)}></UpdateContent>
